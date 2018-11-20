@@ -3,11 +3,18 @@
 #include "vmu931/commands.hpp"
 #include "vmu931/sensor.hpp"
 #include "vmu931/types.hpp"
+#include <time.h>
+#include <boost/date_time.hpp>
+
+
+boost::posix_time::ptime now = boost::date_time::not_a_date_time;
+
 
 int main()
 {
     boost::asio::io_service io_service;
     boost::asio::serial_port serial_port(io_service, "/dev/ttyACM0");
+    //boost::asio::serial_port serial_port(io_service, "/dev/tty.usbmodem931901443E");
 
     vmu931::Sensor sensor(std::move(serial_port));
     sensor.register_sink([](vmu931::Accelerometers accel) {
@@ -20,6 +27,8 @@ int main()
         std::cout << "magneto: x=" << magneto.x << " y=" << magneto.y << " z=" << magneto.z <<"\n";
     });
     sensor.register_sink([](vmu931::EulerAngles euler) {
+      now = boost::posix_time::microsec_clock::universal_time();
+      std::cout <<now <<std::endl;
         std::cout << "euler: x=" << euler.x << " y=" << euler.y << " z=" << euler.z <<"\n";
     });
     sensor.register_sink([](vmu931::Quaternions quat) {
@@ -40,7 +49,13 @@ int main()
     });
 
     io_service.post([&sensor]() {
-            sensor.set_streams({vmu931::commands::Heading, vmu931::commands::EulerAngles});
+            sensor.set_streams({//vmu931::commands::Accelerometers,
+                                //vmu931::commands::Gyroscopes,
+                                //vmu931::commands::Magnetometers,
+                                  vmu931::commands::EulerAngles,
+                                //vmu931::commands::Quaternions,
+                                  vmu931::commands::Heading
+                                });
     });
 
     std::cout << "Start reading VMU931 sensor stream...\n";
