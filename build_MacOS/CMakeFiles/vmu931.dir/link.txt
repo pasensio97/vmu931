@@ -1,0 +1,2 @@
+/Library/Developer/CommandLineTools/usr/bin/ar qc libvmu931.a  CMakeFiles/vmu931.dir/src/sensor.cpp.o CMakeFiles/vmu931.dir/src/types.cpp.o
+/Library/Developer/CommandLineTools/usr/bin/ranlib libvmu931.a
