@@ -34,9 +34,9 @@ int main()
     sensor.register_sink([](vmu931::EulerAngles euler) {
       now = boost::posix_time::microsec_clock::universal_time();
       //std::cout<<now-last<<std::endl;
-      if(now-last >= boost::posix_time::milliseconds(100.0)) {
-        std::cout <<now <<std::endl;
-        //std::cout << "euler: x=" << euler.x << " y=" << euler.y << " z=" << euler.z <<"\n";
+      if(now - last >= boost::posix_time::milliseconds(100)) {
+        std::cout << now <<std::endl;
+        std::cout << "euler: x=" << euler.x << " y=" << euler.y << " z=" << euler.z <<"\n";
         last = now;
       }
     });
