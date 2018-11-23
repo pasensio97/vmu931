@@ -17,8 +17,8 @@ int main()
 {
     last = boost::posix_time::microsec_clock::universal_time();
     boost::asio::io_service io_service;
-    boost::asio::serial_port serial_port(io_service, "/dev/ttyACM0");
-    //boost::asio::serial_port serial_port(io_service, "/dev/tty.usbmodem931901443E");
+    //boost::asio::serial_port serial_port(io_service, "/dev/ttyACM0");
+    boost::asio::serial_port serial_port(io_service, "/dev/tty.usbmodem931901443E");
 
 
     vmu931::Sensor sensor(std::move(serial_port));
