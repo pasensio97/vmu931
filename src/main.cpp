@@ -32,11 +32,13 @@ int main()
         std::cout << "magneto: x=" << magneto.x << " y=" << magneto.y << " z=" << magneto.z <<"\n";
     });
     sensor.register_sink([](vmu931::EulerAngles euler) {
-      now = boost::posix_time::microsec_clock::universal_time();
-      //std::cout<<now-last<<std::endl;
-      if(now-last >= boost::posix_time::milliseconds(100.0)) {
-        std::cout <<now <<std::endl;
         //std::cout << "euler: x=" << euler.x << " y=" << euler.y << " z=" << euler.z <<"\n";
+      now = boost::posix_time::microsec_clock::universal_time();
+      //std::cout <<"tiempo: " <<now <<std::endl;
+      //std::cout<<now-last<<std::endl;
+      if(now-last >= boost::posix_time::seconds(1)) {
+        std::cout <<now <<std::endl;
+        std::cout << "euler: x=" << euler.x << " y=" << euler.y << " z=" << euler.z <<"\n";
         last = now;
       }
     });
@@ -73,13 +75,31 @@ int main()
 
     std::cout << "Start reading VMU931 sensor stream...\n";
     io_service.run();
-    /*while(true) {
+/*    int i=0;
+    while(i<5) {
       auto start = boost::posix_time::microsec_clock::universal_time();
-      io_service.poll_one();
+        std::cout <<"huam" <<std::endl;
+      //io_service.run_one();
+      io_service.post([&sensor]() {
+            sensor.set_streams({
+              //vmu931::commands::Accelerometers,
+              //vmu931::commands::Gyroscopes,
+              //vmu931::commands::Magnetometers,
+              vmu931::commands::EulerAngles,
+              //vmu931::commands::Quaternions,
+              //vmu931::commands::Heading,
+              //vmu931::commands::Status
+            });
+          });
+      io_service.run_one();
       auto stop = boost::posix_time::microsec_clock::universal_time();
       auto diff = stop - start;
       auto to_sleep = boost::posix_time::seconds(1.0) - diff;
+        std::cout <<"suuu" <<std::endl;
       usleep(to_sleep.total_microseconds());
+        //std::cout <<"SUUUUU" <<std::endl;
+        i++;
+        std::cout <<i <<std::endl;
     }*/
     return 0;
 }
