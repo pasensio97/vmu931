@@ -20,6 +20,7 @@ int main()
     boost::asio::serial_port serial_port(io_service, "/dev/ttyACM0");
     //boost::asio::serial_port serial_port(io_service, "/dev/tty.usbmodem931901443E");
 
+
     vmu931::Sensor sensor(std::move(serial_port));
     sensor.register_sink([](vmu931::Accelerometers accel) {
         std::cout << "accel: x=" << accel.x << " y=" << accel.y << " z=" << accel.z <<"\n";
@@ -33,9 +34,9 @@ int main()
     sensor.register_sink([](vmu931::EulerAngles euler) {
       now = boost::posix_time::microsec_clock::universal_time();
       //std::cout<<now-last<<std::endl;
-      if(now-last >= boost::posix_time::seconds(1.0)) {
+      if(now-last >= boost::posix_time::milliseconds(100.0)) {
         std::cout <<now <<std::endl;
-        std::cout << "euler: x=" << euler.x << " y=" << euler.y << " z=" << euler.z <<"\n";
+        //std::cout << "euler: x=" << euler.x << " y=" << euler.y << " z=" << euler.z <<"\n";
         last = now;
       }
     });
