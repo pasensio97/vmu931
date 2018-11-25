@@ -31,15 +31,27 @@ int main()
     sensor.register_sink([](vmu931::Magnetometers magneto) {
         std::cout << "magneto: x=" << magneto.x << " y=" << magneto.y << " z=" << magneto.z <<"\n";
     });
+
+
     sensor.register_sink([](vmu931::EulerAngles euler) {
-      now = boost::posix_time::microsec_clock::universal_time();
-      //std::cout<<now-last<<std::endl;
+      /*now = boost::posix_time::microsec_clock::universal_time();
+      std::cout<<now-last<<std::endl;
       if(now-last >= boost::posix_time::seconds(1.0)) {
         std::cout <<now <<std::endl;
         std::cout << "euler: x=" << euler.x << " y=" << euler.y << " z=" << euler.z <<"\n";
         last = now;
-      }
+      }*/
+
+      std::cout << "euler: x=" << euler.x << " y=" << euler.y << " z=" << euler.z <<"\n";
+
+      auto start = boost::posix_time::microsec_clock::universal_time();
+      auto stop = boost::posix_time::microsec_clock::universal_time();
+      auto diff = stop - start;
+      auto to_sleep = boost::posix_time::seconds(1.0) - diff;
+      usleep(to_sleep.total_microseconds());
     });
+
+
     sensor.register_sink([](vmu931::Quaternions quat) {
         std::cout << "quat: w=" << quat.w << " x=" << quat.x << " y=" << quat.y << " z=" << quat.z <<"\n";
     });
