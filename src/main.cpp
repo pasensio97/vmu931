@@ -84,10 +84,14 @@ int main()
     });
 
     std::cout << "Start reading VMU931 sensor stream...\n";
+    myfile <<"UNITS: Diftime[microsec] /*/ accel[g] /*/ gyro[dps] /*/ euler[degres] /*/ heading[degres]" <<std::endl;
+    std::cout <<"UNITS: Diftime[microsec] /*/ accel[g] /*/ gyro[dps] /*/ euler[degres] /*/ heading[degres]" <<std::endl;
+
     myfile <<"Date Time " <<"Diftime[microsec] " <<"/quatW " <<"quatX " <<"quatY " <<"quatZ " <<"/accelX " <<"accelY " <<"accelZ "
       <<"/gyroX " <<"gyroY " <<"gyroZ " <<"/eulerX "  <<"eulerY " <<"eulerZ " <<"/heading" <<std::endl;
     std::cout <<"Date Time " <<"Diftime[microsec] " <<"/quatW " <<"quatX " <<"quatY " <<"quatZ " <<"/accelX " <<"accelY " <<"accelZ "
       <<"/gyroX " <<"gyroY " <<"gyroZ " <<"/eulerX "  <<"eulerY " <<"eulerZ " <<"/heading" <<std::endl;
+
     io_service.run();
 
   return 0;
