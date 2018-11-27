@@ -29,15 +29,11 @@ int main()
     vmu931::Sensor sensor(std::move(serial_port));
 
     sensor.register_sink([&myfile](vmu931::Accelerometers accel) {
-        //myfile <<" " <<accel.x <<" " <<accel.y <<" " <<accel.z;
-        //std::cout <<" accelX=" <<accel.x <<" " <<accel.y <<" " <<accel.z;
         myfile <<" " <<(accel.x)*G <<" " <<(accel.y)*G <<" " <<(accel.z)*G;
         std::cout <<" accelX=" <<(accel.x)*G <<" " <<(accel.y)*G <<" " <<(accel.z)*G;
     });
 
     sensor.register_sink([&myfile](vmu931::Gyroscopes gyro) {
-        //myfile <<" " <<gyro.x <<" " <<gyro.y <<" " <<gyro.z;
-        //std::cout <<" gyroX=" <<gyro.x <<" " <<gyro.y <<" " <<gyro.z;
         myfile <<" " <<(gyro.x)*PI/180 <<" " <<(gyro.y)*PI/180 <<" " <<(gyro.z)*PI/180;
         std::cout <<" gyroX=" <<(gyro.x)*PI/180 <<" " <<(gyro.y)*PI/180 <<" " <<(gyro.z)*PI/180;
     });
@@ -90,10 +86,8 @@ int main()
     });
 
     std::cout << "Start reading VMU931 sensor stream...\n";
-    //myfile <<"UNITS: Diftime[microsec] /*/ accel[g] /*/ gyro[dps] /*/ euler[degres] /*/ heading[degres]" <<std::endl;
-    //std::cout <<"UNITS: Diftime[microsec] /*/ accel[g] /*/ gyro[dps] /*/ euler[degres] /*/ heading[degres]" <<std::endl;
-    myfile <<"UNITS: Diftime[sec] /*/ accel[m/s²] /*/ gyro[rad/s] /*/ euler[degres] /*/ heading[degres]" <<std::endl;
-    std::cout <<"UNITS: Diftime[sec] /*/ accel[m/s²] /*/ gyro[rad/s] /*/ euler[degres] /*/ heading[degres]" <<std::endl;
+    myfile <<"UNITS: Diftime[sec] /*/ accel[m/s²] /*/ gyro[rad/s] /*/ euler[degrees] /*/ heading[degrees]" <<std::endl;
+    std::cout <<"UNITS: Diftime[sec] /*/ accel[m/s²] /*/ gyro[rad/s] /*/ euler[degrees] /*/ heading[degrees]" <<std::endl;
 
     myfile <<"Date Time " <<"Diftime " <<"/quatW " <<"quatX " <<"quatY " <<"quatZ " <<"/accelX " <<"accelY " <<"accelZ "
       <<"/gyroX " <<"gyroY " <<"gyroZ " <<"/eulerX "  <<"eulerY " <<"eulerZ " <<"/heading" <<std::endl;
