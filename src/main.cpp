@@ -9,6 +9,8 @@
 #include <boost/date_time.hpp>
 #include <fstream>
 
+#define PI 3.14159265358979323846
+#define G 9.79991
 
   boost::posix_time::ptime now = boost::date_time::not_a_date_time;
   boost::posix_time::ptime last = boost::date_time::not_a_date_time;
@@ -27,13 +29,17 @@ int main()
     vmu931::Sensor sensor(std::move(serial_port));
 
     sensor.register_sink([&myfile](vmu931::Accelerometers accel) {
-        myfile <<" " <<accel.x <<" " <<accel.y <<" " <<accel.z;
-        std::cout <<" accelX=" <<accel.x <<" " <<accel.y <<" " <<accel.z;
+        //myfile <<" " <<accel.x <<" " <<accel.y <<" " <<accel.z;
+        //std::cout <<" accelX=" <<accel.x <<" " <<accel.y <<" " <<accel.z;
+        myfile <<" " <<(accel.x)*G <<" " <<(accel.y)*G <<" " <<(accel.z)*G;
+        std::cout <<" accelX=" <<(accel.x)*G <<" " <<(accel.y)*G <<" " <<(accel.z)*G;
     });
 
     sensor.register_sink([&myfile](vmu931::Gyroscopes gyro) {
-        myfile <<" " <<gyro.x <<" " <<gyro.y <<" " <<gyro.z;
-        std::cout <<" gyroX=" <<gyro.x <<" " <<gyro.y <<" " <<gyro.z;
+        //myfile <<" " <<gyro.x <<" " <<gyro.y <<" " <<gyro.z;
+        //std::cout <<" gyroX=" <<gyro.x <<" " <<gyro.y <<" " <<gyro.z;
+        myfile <<" " <<(gyro.x)*PI/180 <<" " <<(gyro.y)*PI/180 <<" " <<(gyro.z)*PI/180;
+        std::cout <<" gyroX=" <<(gyro.x)*PI/180 <<" " <<(gyro.y)*PI/180 <<" " <<(gyro.z)*PI/180;
     });
 
     sensor.register_sink([](vmu931::Magnetometers magneto) {
@@ -49,8 +55,8 @@ int main()
       now = boost::posix_time::microsec_clock::universal_time();
       auto diff = now-last;
       last = now;
-        myfile <<now <<" " <<diff.total_microseconds();
-        std::cout <<now <<" " <<diff.total_microseconds();
+        myfile <<now <<" " <<(diff.total_microseconds())*0.000001;
+        std::cout <<now <<" " <<(diff.total_microseconds())*0.000001;
         myfile <<" " <<quat.w <<" " <<quat.x <<" " <<quat.y <<" " <<quat.z;
         std::cout <<" quatW=" <<quat.w <<" " <<quat.x <<" " <<quat.y <<" " <<quat.z;
     });
@@ -84,12 +90,14 @@ int main()
     });
 
     std::cout << "Start reading VMU931 sensor stream...\n";
-    myfile <<"UNITS: Diftime[microsec] /*/ accel[g] /*/ gyro[dps] /*/ euler[degres] /*/ heading[degres]" <<std::endl;
-    std::cout <<"UNITS: Diftime[microsec] /*/ accel[g] /*/ gyro[dps] /*/ euler[degres] /*/ heading[degres]" <<std::endl;
+    //myfile <<"UNITS: Diftime[microsec] /*/ accel[g] /*/ gyro[dps] /*/ euler[degres] /*/ heading[degres]" <<std::endl;
+    //std::cout <<"UNITS: Diftime[microsec] /*/ accel[g] /*/ gyro[dps] /*/ euler[degres] /*/ heading[degres]" <<std::endl;
+    myfile <<"UNITS: Diftime[sec] /*/ accel[m/s²] /*/ gyro[rad/s] /*/ euler[degres] /*/ heading[degres]" <<std::endl;
+    std::cout <<"UNITS: Diftime[sec] /*/ accel[m/s²] /*/ gyro[rad/s] /*/ euler[degres] /*/ heading[degres]" <<std::endl;
 
-    myfile <<"Date Time " <<"Diftime[microsec] " <<"/quatW " <<"quatX " <<"quatY " <<"quatZ " <<"/accelX " <<"accelY " <<"accelZ "
+    myfile <<"Date Time " <<"Diftime " <<"/quatW " <<"quatX " <<"quatY " <<"quatZ " <<"/accelX " <<"accelY " <<"accelZ "
       <<"/gyroX " <<"gyroY " <<"gyroZ " <<"/eulerX "  <<"eulerY " <<"eulerZ " <<"/heading" <<std::endl;
-    std::cout <<"Date Time " <<"Diftime[microsec] " <<"/quatW " <<"quatX " <<"quatY " <<"quatZ " <<"/accelX " <<"accelY " <<"accelZ "
+    std::cout <<"Date Time " <<"Diftime " <<"/quatW " <<"quatX " <<"quatY " <<"quatZ " <<"/accelX " <<"accelY " <<"accelZ "
       <<"/gyroX " <<"gyroY " <<"gyroZ " <<"/eulerX "  <<"eulerY " <<"eulerZ " <<"/heading" <<std::endl;
 
     io_service.run();
