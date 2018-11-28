@@ -9,8 +9,10 @@
 #include <boost/date_time.hpp>
 #include <fstream>
 
-#define PI 3.14159265358979323846
-#define G 9.79991
+//#define PI 3.1415926535
+//#define G 9.79991 //g at fuenlabrada
+#define PI std::acos(-1)
+#define G 9.81 //g at sea level
 
   boost::posix_time::ptime now = boost::date_time::not_a_date_time;
   boost::posix_time::ptime last = boost::date_time::not_a_date_time;
@@ -88,6 +90,8 @@ int main()
     std::cout << "Start reading VMU931 sensor stream...\n";
     myfile <<"UNITS: Diftime[sec] /*/ accel[m/s²] /*/ gyro[rad/s] /*/ euler[degrees] /*/ heading[degrees]" <<std::endl;
     std::cout <<"UNITS: Diftime[sec] /*/ accel[m/s²] /*/ gyro[rad/s] /*/ euler[degrees] /*/ heading[degrees]" <<std::endl;
+    myfile <<"g= "<<G <<" | pi= " <<PI <<std::endl;
+    std::cout <<"g= "<<G <<" | pi= " <<PI <<std::endl;
 
     myfile <<"Date Time " <<"Diftime " <<"/quatW " <<"quatX " <<"quatY " <<"quatZ " <<"/accelX " <<"accelY " <<"accelZ "
       <<"/gyroX " <<"gyroY " <<"gyroZ " <<"/eulerX "  <<"eulerY " <<"eulerZ " <<"/heading" <<std::endl;
