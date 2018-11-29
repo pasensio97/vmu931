@@ -47,6 +47,8 @@ vmu931/types.hpp
 /Users/Pablo/git/vmu931/src/vmu931/types.hpp
 boost/date_time.hpp
 -
+fstream
+-
 
 /usr/local/include/boost/algorithm/string.hpp
 boost/algorithm/string/std_containers_traits.hpp
